@@ -5,33 +5,67 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 import os
 from dotenv import load_dotenv
 import torch
+from huggingface_hub import login
 
 # Load environment variables
 load_dotenv()
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+
+# Modify the device selection to be more robust
+device = "cpu"  # Default to CPU
+if torch.backends.mps.is_available():
+    try:
+        device = "mps"
+    except:
+        print("MPS (Metal Performance Shaders) available but encountered an error. Falling back to CPU.")
+
 # Use a pipeline as a high-level helper
 def initialize_huggingface_model():
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.bfloat16,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_use_nested_quant=False
-    )
-    model_name = "MayaPH/FinOPT-Washington" 
-    pipe = pipeline(
-        "text-generation",
-        model=model_name,
-        torch_dtype=torch.bfloat16,
-        device_map="auto",
-        low_cpu_mem_usage=True,
-        quantization_config=quantization_config
-    )
-    return pipe
+    try:
+        print("Initializing HuggingFace model...")
+
+        model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"  
+        
+        login(token=HUGGINGFACE_API_KEY)
+        
+        pipe = pipeline(
+            "text-generation",
+            model=model_name,
+            torch_dtype=torch.float16,
+            device_map="auto",
+            truncation=True,
+            max_length=2048
+        )  
+        print("Model initialized successfully")
+        return pipe
+        
+    except Exception as e:
+        print(f"Error initializing model: {str(e)}")
+        raise
 
 def generate_response(pipe, messages):
-    response = pipe(messages, max_length=4000, num_return_sequences=1)
-    return response
+    try:
+        # Add more specific parameters for the pipeline
+        response = pipe(
+            messages,
+            max_length=2048,
+            num_return_sequences=1,
+            do_sample=True,
+            temperature=0.7,
+            pad_token_id=pipe.tokenizer.eos_token_id
+        )
+        
+        # Add debug logging
+        print("Raw response:", response)
+        
+        # Check if response is valid and extract text
+        if response and isinstance(response, list) and len(response) > 0:
+            return response[0]['generated_text']
+        return "I apologize, but I couldn't generate a response. Please try again."
+        
+    except Exception as e:
+        print(f"Error generating response: {str(e)}")
+        return f"An error occurred: {str(e)}"
 
 def setup_retrieval_chain(llm, pinecone_index, embedding_function):
     retriever = Pinecone.from_existing_index(index_name=pinecone_index, embedding_function=embedding_function)
