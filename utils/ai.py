@@ -6,6 +6,8 @@ import os
 from dotenv import load_dotenv
 import torch
 from huggingface_hub import login
+import streamlit as st
+from langchain_community.llms import HuggingFacePipeline
 
 # Load environment variables
 load_dotenv()
@@ -20,6 +22,7 @@ if torch.backends.mps.is_available():
         print("MPS (Metal Performance Shaders) available but encountered an error. Falling back to CPU.")
 
 # Use a pipeline as a high-level helper
+@st.cache_resource
 def initialize_huggingface_model():
     try:
         print("Initializing HuggingFace model...")
@@ -33,8 +36,7 @@ def initialize_huggingface_model():
             model=model_name,
             torch_dtype=torch.float16,
             device_map="auto",
-            truncation=True,
-            max_length=2048
+            model_kwargs={"low_cpu_mem_usage": True}
         )  
         print("Model initialized successfully")
         return pipe
@@ -45,20 +47,20 @@ def initialize_huggingface_model():
 
 def generate_response(pipe, messages):
     try:
-        # Add more specific parameters for the pipeline
+        # Optimize generation parameters
         response = pipe(
             messages,
-            max_length=2048,
+            max_length=512,  # Reduced from 2048 for faster responses
             num_return_sequences=1,
             do_sample=True,
             temperature=0.7,
-            pad_token_id=pipe.tokenizer.eos_token_id
+            top_p=0.95,
+            top_k=50,
+            pad_token_id=pipe.tokenizer.eos_token_id,
+            repetition_penalty=1.1,
+            truncation=True
         )
         
-        # Add debug logging
-        print("Raw response:", response)
-        
-        # Check if response is valid and extract text
         if response and isinstance(response, list) and len(response) > 0:
             return response[0]['generated_text']
         return "I apologize, but I couldn't generate a response. Please try again."
@@ -67,6 +69,22 @@ def generate_response(pipe, messages):
         print(f"Error generating response: {str(e)}")
         return f"An error occurred: {str(e)}"
 
-def setup_retrieval_chain(llm, pinecone_index, embedding_function):
-    retriever = Pinecone.from_existing_index(index_name=pinecone_index, embedding_function=embedding_function)
-    return RetrievalQA(llm_chain=llm, retriever=retriever)
+def setup_retrieval_chain(pipe, pinecone_index, embedding_model):
+    # Convert the pipeline to a LangChain LLM
+    llm = HuggingFacePipeline(pipeline=pipe)
+    
+    embedding_function = lambda text: embedding_model.encode(text).tolist()
+    
+    vectorstore = Pinecone(pinecone_index, embedding_function, "text")
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    
+    print("Retrieved documents:", retriever.get_relevant_documents("test query"))
+    
+    qa_chain = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff",
+        retriever=retriever,
+        return_source_documents=False
+    )
+    
+    return qa_chain

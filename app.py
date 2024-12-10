@@ -6,6 +6,7 @@ from utils.db import initialize_pinecone, load_dataset_to_pinecone
 from utils.prompts import financial_advisor_prompt
 from utils.ai import initialize_huggingface_model, setup_retrieval_chain, generate_response
 from multiprocessing import freeze_support
+from sentence_transformers import SentenceTransformer
 
 # Load environment variables
 load_dotenv()
