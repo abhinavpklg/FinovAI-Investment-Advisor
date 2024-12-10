@@ -196,7 +196,15 @@ def main():
                             col7.plotly_chart(create_gauge_chart(pe_ratio, "P/E Ratio"), use_container_width=True)
 
                             st.subheader("📉 Stock Price History (1 Year):")
-                            st.line_chart(data["Close"])
+                            fig = go.Figure(data=[go.Candlestick(
+                                x=data.index,
+                                open=data['Open'],
+                                high=data['High'],
+                                low=data['Low'],
+                                close=data['Close']
+                            )])
+                            fig.update_layout(title='Candlestick Chart', xaxis_title='Date', yaxis_title='Price')
+                            st.plotly_chart(fig, use_container_width=True)
 
                             st.subheader("📊 Additional Insights:")
 
