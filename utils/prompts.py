@@ -23,11 +23,11 @@ financial_advisor_prompt = PromptTemplate(
        - Gold
        - Others (if applicable)
 
-    2. Brief justification for each allocation based on:
-       - User's risk profile (derived from age and investment duration)
-       - Investment objective
-       - Monthly savings capacity (income - expenditure)
-       - Market conditions and historical patterns
+   2. Brief justification for each allocation based on:
+      - User's risk profile (derived from age and investment duration)
+      - Investment objective
+      - Monthly savings capacity (income - expenditure)
+      - Market conditions and historical patterns
 
     3. Specific recommendations or cautionary advice relevant to the user's profile
 
