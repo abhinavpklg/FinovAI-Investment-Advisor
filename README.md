@@ -141,6 +141,53 @@ The following is an overview of the project's folder structure:
 
 ---
 
+## 🧪 Test Suite Documentation
+
+### 📊 Test Categories
+
+1. **📈 Stock Analysis Testing**
+   - ✅ Market cap & volume filter validation
+   - 🔄 Data processing pipeline verification
+   - 📊 Financial metrics computation accuracy
+   - 💹 Historical data integrity checks
+
+2. **👤 User Profile Validation**
+   - 🔒 Age verification (18-100 years)
+   - 💰 Income & expenditure validation
+   - ⏳ Investment horizon checks (1-40 years)
+   - 🎯 Financial goals assessment
+   - 📝 Profile completeness verification
+
+3. **🤖 Recommendation Engine Testing**
+   - 🎯 Algorithm accuracy validation
+   - 📋 Output format compliance
+   - 🔍 Recommendation filtering logic
+   - 📊 Risk-profile alignment checks
+   - ⚖️ Portfolio balance verification
+
+4. **⚠️ Error Handling & Edge Cases**
+   - 🚫 Invalid profile data handling
+   - ⚡ API failure recovery
+   - 🔄 Service integration resilience
+   - 📝 Missing data management
+   - 🛡️ Input sanitization verification
+
+### ⚙️ Test Execution Guide
+
+Run the comprehensive test suite using:
+
+```bash
+pytest tests/test_financial_analysis.py -v --html=report.html
+```
+
+This command:
+- 🔍 Executes all test cases with verbose output
+- 📄 Generates an HTML report for easy review
+- ⏱️ Displays execution time for each test
+- 📊 Provides detailed failure analysis
+
+---
+
 ## 📝 Example Conversations
 
 ### ✅ Investment Strategy Generation:
