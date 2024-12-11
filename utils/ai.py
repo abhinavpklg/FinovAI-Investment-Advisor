@@ -1,7 +1,7 @@
 from transformers import pipeline, BitsAndBytesConfig
 from langchain.chains import RetrievalQA
-from langchain.vectorstores import Pinecone
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Pinecone
+from langchain_community.embeddings import OpenAIEmbeddings
 import os
 from dotenv import load_dotenv
 import torch
