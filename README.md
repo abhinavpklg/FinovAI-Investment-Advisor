@@ -81,12 +81,11 @@ The following is an overview of the project's folder structure:
 ├── README.md                               # Project documentation
 ├── app.py                                  # Streamlit application script
 ├── company_tickers.json                    # JSON file with company tickers
-├── data                                    # Fine Tuning Dataset
+├── data                                    # Fine Tuning Dataset and RAG Knowledge Base
 │   ├── Finance_data.csv
 |   ├── training_data1.csv
 |   ├── training_data2.csv
 |   └── training_data3.csv
-|   
 ├── requirements.txt                        # List of project dependencies
 ├── setup.py                                # Script for initializing Pinecone vector database
 ├── successful_tickers.txt                  # File with successfully processed tickers
@@ -129,7 +128,7 @@ The following is an overview of the project's folder structure:
 
 5. **Run the Jupyter notebook**:
    ```bash
-   jupyter notebook Financial_Analysis_&_Automation.ipynb
+   jupyter notebook financial_analysis_automation.ipynb
    ```
    This notebook contains code for setting up the vector database in Pinecone for stock recommendations using SEC data.
 
@@ -215,6 +214,30 @@ FinovAI: Based on market analysis, here are some key players:
 ```
 
 ---
+## 📊 Source Data
+
+The system utilizes data from the following sources:
+
+### 1. Investment Dataset
+- **Source**: [Kaggle Investment Dataset](https://www.kaggle.com/datasets/samulasrikanthreddy/investment-dataset)
+- **Content**:
+  - Comprehensive investment patterns
+  - User demographics and preferences
+  - Risk tolerance indicators
+  - Investment outcomes
+- **Purpose**: Training and fine-tuning investment strategy recommendations
+
+### 2. SEC Company Data
+- **Source**: [Company Tickers JSON](https://raw.githubusercontent.com/abhinavpklg/FinovAI-Investment-Advisor/refs/heads/main/company_tickers.json)
+- **Content**:
+  - Company identifiers and tickers
+  - SEC filing information
+  - Industry classifications
+  - Company metadata
+- **Purpose**: Stock analysis and company information retrieval
+
+ Both datasets are processed and vectorized for use in our RAG system, enabling accurate and context-aware investment recommendations.
+---
 
 ## 📂 RAG Knowledge Base
 
@@ -284,6 +307,7 @@ The system's AI models are fine-tuned on specialized financial datasets to enhan
 - Regular model updates with the latest financial information.
 
 ---
+
 
 ## 🔮 Prompt Engineering & Investment Guidelines
 
