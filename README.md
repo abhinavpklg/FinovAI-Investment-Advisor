@@ -1,2 +1,2 @@
 # FinovAI-Investment-Advisor
-FinovAI : AI-Powered Capital Investment Advisor
+FinovAI : AI-Powered Investment Advisor
