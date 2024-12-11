@@ -1,101 +1,146 @@
-# FinovAI : AI-Powered Investment Advisor
+# FinovAI : AI-Powered Investment Advisor 🏛️📊
 
-FinovAI is an intelligent investment advisory system that leverages artificial intelligence to provide personalized investment strategies and stock recommendations. The system uses Retrieval Augmented Generation (RAG) with vector databases to analyze market data and provide informed investment advice.
+FinovAI is an intelligent investment advisory system that leverages artificial intelligence to provide personalized investment strategies and stock recommendations. The system uses **Retrieval Augmented Generation (RAG)** with vector databases to analyze market data and provide informed investment advice.
 
-## Features
+---
 
-- Personalized investment strategy generation based on user profiles
-- Stock recommendations using RAG with SEC company data
-- Portfolio allocation guidelines based on risk profile and investment goals
-- Real-time market data analysis through Yahoo Finance integration
-- Semantic search capabilities for company information
-- Interactive web interface built with Streamlit for easy user interaction
+## ✨ Features
 
-## User Interface
+- 🌟 **Personalized Investment Strategies**: Tailored recommendations based on user profiles.
+- 📈 **Stock Recommendations**: Insights powered by RAG and SEC company data.
+- ⚖️ **Portfolio Allocation**: Guidelines aligned with risk profiles and investment goals.
+- ⏱️ **Real-Time Market Data**: Integration with Yahoo Finance for live updates.
+- 🔍 **Semantic Search**: Efficient company information retrieval.
+- 🖥️ **Interactive Web Interface**: Built with Streamlit for seamless user experience.
+
+---
+
+## 🎨 User Interface
 
 The application features a modern, user-friendly interface built using Streamlit, offering:
 
-- Clean, intuitive design for easy navigation
-- Interactive forms for user profile input
-- Real-time graphs for visualization
-- Dynamic stock recommendation displays
-- Easy-to-understand investment strategy presentations
+- 🧭 **Clean Navigation**: Intuitive design for easy exploration.
+- ✍️ **Interactive Forms**: Simplified user profile input.
+- 📊 **Real-Time Graphs**: For better visualization of data.
+- 🔄 **Dynamic Recommendations**: Instant and data-driven.
+- 📝 **Clear Presentations**: Easy-to-understand investment strategies.
 
-## AI Model Configuration
+---
 
-The system leverages Groq's high-performance API for fast AI inference, utilizing state-of-the-art language models:
+## 🛠️ Technology Stack
 
-### Primary Model
-- Model: `llama-3.1-70b-versatile`
-- Features:
-  - High-accuracy financial analysis
-  - Comprehensive market understanding
-  - Sophisticated investment strategy generation
-  - Fast inference through Groq's optimized infrastructure
-  - Real-time response capabilities
+| **Technology**          | **Description**                       | **Icon** |
+|--------------------------|---------------------------------------|----------|
+| **Python**              | Core programming language             | 🐍       |
+| **Streamlit**           | Interactive web interface framework   | 🌐       |
+| **Pinecone**            | Vector database for RAG               | 📦       |
+| **Yahoo Finance API**   | Real-time market data retrieval       | 💹       |
+| **Jupyter Notebook**    | Data analysis and workflow setup      | 📒       |
+| **Groq API**            | High-performance AI inference         | 🚀       |
 
-### Fallback Model
-- Model: `llama-3.1-8b-instant`
-- Purpose: Automatic fallback for high-traffic periods or when primary model is unavailable
-- Benefits:
-  - Lower latency
-  - Reduced resource requirements
-  - Maintains service availability
-  - Suitable for basic queries and analysis
+---
 
-### Performance Optimization
-- Groq API integration for superior inference speed
-- Automatic model switching based on:
+## 🤖 AI Model Configuration
+
+### 🌟 Primary Model
+- **Model**: `llama-3.1-70b-versatile`
+- **Features**:
+  - ✅ High-accuracy financial analysis
+  - ⚙️ Comprehensive market understanding
+  - 💡 Sophisticated investment strategy generation
+  - 🚀 Fast inference using Groq's infrastructure
+  - ⏳ Real-time response capabilities
+
+### ❄️ Fallback Model
+- **Model**: `llama-3.1-8b-instant`
+- **Purpose**: Automatic fallback during high-traffic periods or model unavailability.
+- **Benefits**:
+  - ⏫ Lower latency
+  - 📈 Handles basic queries efficiently
+
+### 🔄 Performance Optimization
+- **Groq API** for high-speed inference.
+- **Automatic model switching** based on:
   - System load
   - Query complexity
   - Response time requirements
   - Service availability
-- Optimized prompt engineering for financial domain
-- Efficient context handling for RAG implementation
+- **Optimized prompt engineering** for the financial domain.
+- **Efficient context handling** for RAG implementation.
 
-## Setup Instructions
+---
 
-1. Create and activate a Python virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+🗂️ Project Structure
+
+The project is organized as follows:
+
+The following is an overview of the project's folder structure:
+
+```plaintext
+.
+├── Financial_Analysis_&_Automation.ipynb   # Notebook for SEC data processing and analysis
+├── README.md                               # Project documentation
+├── app.py                                  # Streamlit application script
+├── company_tickers.json                    # JSON file with company tickers
+├── data
+│   └── Finance_data.csv                    # CSV containing investment strategy data
+├── requirements.txt                        # List of project dependencies
+├── setup.py                                # Script for initializing Pinecone vector database
+├── successful_tickers.txt                  # File with successfully processed tickers
+├── text_embeddings.py                      # Script for generating text embeddings
+├── unsuccessful_tickers.txt                # File with unsuccessfully processed tickers
+└── utils
+    ├── ai.py                               # AI-related utility functions
+    ├── db.py                               # Database interaction scripts
+    ├── prompts.py                          # Prompt engineering for AI models
+    └── utils.py                            # General utility functions
+
 ```
+---
 
-2. Install required dependencies:
-```bash
-pip install -r requirements.txt
-```
+## 🔧 Setup Instructions
 
-3. Set up environment variables:
-Create a `.env` file with your API keys:
-```
-PINECONE_API_KEY=your_pinecone_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
-```
+1. **Create and activate a Python virtual environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-4. Initialize the vector database:
-```bash
-python setup.py
-```
-This will set up the Pinecone vector database for RAG-based investment strategy generation.
+2. **Install required dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-5. Run the Jupyter notebook:
-```bash
-jupyter notebook Financial_Analysis_&_Automation.ipynb
-```
-This notebook contains code for setting up the vector DB in Pinecone for stock recommendations using SEC data.
+3. **Set up environment variables**:
+   Create a `.env` file with your API keys:
+   ```plaintext
+   PINECONE_API_KEY=your_pinecone_api_key_here
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
 
-6. Launch the Streamlit application:
-```bash
-streamlit run app.py
-```
-This will start the web interface on your local machine, typically at http://localhost:8501
+4. **Initialize the vector database**:
+   ```bash
+   python setup.py
+   ```
+   This will set up the Pinecone vector database for RAG-based investment strategy generation.
 
-## Example Conversations
+5. **Run the Jupyter notebook**:
+   ```bash
+   jupyter notebook Financial_Analysis_&_Automation.ipynb
+   ```
+   This notebook contains code for setting up the vector database in Pinecone for stock recommendations using SEC data.
 
-The system can handle various investment-related queries:
+6. **Launch the Streamlit application**:
+   ```bash
+   streamlit run app.py
+   ```
+   This will start the web interface on your local machine, typically at [http://localhost:8501](http://localhost:8501).
 
-1. Investment Strategy Generation:
+---
+
+## 📝 Example Conversations
+
+### ✅ Investment Strategy Generation:
 ```
 User: I'm 30 years old with a monthly income of $8000, monthly expenditure of $5000, 
       and current savings of $50000. What investment strategy do you recommend?
@@ -109,7 +154,7 @@ FinovAI: Based on your age and financial profile, here's a recommended portfolio
 This aggressive allocation leverages your long investment horizon and risk capacity.
 ```
 
-2. Stock Analysis:
+### 📊 Stock Analysis:
 ```
 User: Which companies are making electric cars?
 
@@ -119,117 +164,109 @@ FinovAI: Based on market analysis, here are some key players:
 - Other automotive companies with significant EV initiatives
 ```
 
-## RAG Knowledge Base
+---
+
+## 📂 RAG Knowledge Base
 
 The system utilizes two main data sources for its RAG capabilities:
 
-1. Investment Strategy Data:
-- Source: `Finance_data.csv`
-- Contains survey data of investment patterns and preferences
-- Used for generating personalized investment strategies
-- Data includes age, income, investment preferences, risk tolerance, etc.
+### 1. Investment Strategy Data:
+- **Source**: `Finance_data.csv`
+- **Content**:
+  - Survey data of investment patterns and preferences
+  - Includes age, income, investment preferences, risk tolerance, etc.
+- **Purpose**: Generating personalized investment strategies.
 
-2. SEC Company Data:
-- Fetched from SEC database via the Financial_Analysis_&_Automation.ipynb notebook
-- Contains detailed company information including:
+### 2. SEC Company Data:
+- **Source**: SEC EDGAR database
+- **Content**:
   - Business descriptions
   - Financial metrics
   - Industry classifications
   - Market performance indicators
-- Used for providing informed stock recommendations
+- **Purpose**: Providing informed stock recommendations.
 
-The data is processed and stored in Pinecone vector database, enabling semantic search and intelligent retrieval for both investment strategies and stock recommendations.
+The data is processed and stored in the Pinecone vector database, enabling semantic search and intelligent retrieval.
 
-## Portfolio Allocation Guidelines
+---
+
+## 📊 Portfolio Allocation Guidelines
 
 The system follows these key principles:
-- Age-based risk capacity (100 - age = maximum equity exposure)
-- Time horizon consideration (Short: <5 years, Medium: 5-10 years, Long: >10 years)
-- Monthly surplus analysis
-- Diversification across asset classes
-- Conservative allocation for lower surplus ratios
+- 🧓 **Age-Based Risk Capacity**: `100 - age = maximum equity exposure`.
+- ⏱️ **Time Horizon Consideration**:
+  - Short-term: < 5 years
+  - Medium-term: 5-10 years
+  - Long-term: > 10 years
+- 💰 **Monthly Surplus Analysis**.
+- 🌐 **Diversification Across Asset Classes**.
+- 🔒 **Conservative Allocation** for lower surplus ratios.
 
-## Fine-tuning Datasets
+---
 
-The system's AI models are fine-tuned on specialized financial datasets to enhance their performance in investment advisory tasks:
+## 📈 Fine-Tuning Datasets
 
-1. Investment Survey Dataset:
-- Size: 10,000+ records of investment decisions and outcomes
-- Source: `Finance_data.csv`
-- Features:
-  - Demographic information (age, gender, income)
-  - Investment preferences and risk tolerance
-  - Investment outcomes and performance metrics
-  - Historical investment decisions
-- Used for: Training the investment strategy recommendation model
+The system's AI models are fine-tuned on specialized financial datasets to enhance performance:
 
-2. Market Analysis Dataset:
-- Source: SEC EDGAR database
-- Coverage: All publicly traded companies in US markets
-- Data points:
-  - Company descriptions and business summaries
-  - Financial statements and metrics
+### 1. Investment Survey Dataset:
+- **Size**: 10,000+ records of investment decisions and outcomes.
+- **Source**: `Finance_data.csv`
+- **Features**:
+  - Demographics (age, gender, income).
+  - Investment preferences and risk tolerance.
+  - Historical investment outcomes.
+- **Purpose**: Training the investment strategy recommendation model.
+
+### 2. Market Analysis Dataset:
+- **Source**: SEC EDGAR database
+- **Coverage**: All publicly traded companies in US markets.
+- **Content**:
+  - Company descriptions
+  - Financial statements
   - Industry classifications
   - Market performance indicators
-- Used for: Fine-tuning the stock recommendation system
+- **Purpose**: Fine-tuning the stock recommendation system.
 
-3. Model Training Process:
-- Initial training on general financial knowledge
-- Fine-tuning on domain-specific datasets
-- Continuous learning from new market data
-- Regular model updates with latest financial information
+### 3. Model Training Process:
+- Initial training on general financial knowledge.
+- Fine-tuning on domain-specific datasets.
+- Continuous learning from new market data.
+- Regular model updates with the latest financial information.
 
-The fine-tuning process ensures that the AI models understand:
-- Market-specific terminology and concepts
-- Complex financial relationships
-- Risk assessment patterns
-- Investment timing strategies
-- Industry-specific trends and indicators
+---
 
-## Prompt Engineering & Investment Guidelines
+## 🔮 Prompt Engineering & Investment Guidelines
 
-### Input Validation Rules
-The system enforces strict validation on user inputs to ensure reliable advice:
-- Age: Must be between 18 and 100 years
-- Monthly Income: Must be greater than 0
-- Monthly Expenditure: Must be less than Monthly Income
-- Current Savings: Must be greater than or equal to 0
-- Investment Duration: Must be between 1 and 40 years
+### 📋 Input Validation Rules
+- **Age**: Must be between 18 and 100 years.
+- **Monthly Income**: Must be greater than 0.
+- **Monthly Expenditure**: Must be less than monthly income.
+- **Current Savings**: Must be ≥ 0.
+- **Investment Duration**: Must be between 1 and 40 years.
 
-### Portfolio Allocation Constraints
-All portfolio allocations must follow these guidelines:
+### 📊 Portfolio Allocation Constraints
+- **Asset Class Limits (Total = 100%)**:
+  - Equity/Stocks: 0-75%
+  - Mutual Funds: 0-50%
+  - Government Bonds: 10-60%
+  - Fixed Deposits: 5-40%
+  - Gold: 0-25%
+  - Others: 0-20%
 
-1. Asset Class Limits (Total must be exactly 100%):
-   - Equity/Stocks: 0-75%
-   - Mutual Funds: 0-50%
-   - Government Bonds: 10-60%
-   - Fixed Deposits: 5-40%
-   - Gold: 0-25%
-   - Others: 0-20%
+### 🔎 Investment Advisory Restrictions
+The system avoids:
+- Individual stock/securities advice.
+- Market timing strategies.
+- Tax planning.
+- Insurance products.
+- Real estate investments.
+- Cryptocurrency/Forex trading.
+- Complex derivatives.
 
-2. Risk Profile Calculation:
-   - Maximum equity exposure = (100 - age)
-   - Time horizon categorization:
-     * Short-term: < 5 years
-     * Medium-term: 5-10 years
-     * Long-term: > 10 years
-   - Conservative allocation if monthly surplus < 20% of income
-
-### Investment Advisory Restrictions
-The system is explicitly designed NOT to provide advice on:
-- Individual stocks or securities
-- Market timing strategies
-- Tax planning
-- Insurance products
-- Real estate investments
-- Cryptocurrency
-- Forex trading
-- Complex derivatives
-
-### Prompt Engineering Principles
-1. Response Structure:
-   - Clear section-wise organization
-   - Explicit percentage allocations
+### 🎯 Prompt Engineering Principles
+1. **Response Structure**:
+   - Clear section-wise organization.
+   - Explicit percentage allocations.
    - Brief explanations for each recommendation
    - Standard risk disclaimers
 
