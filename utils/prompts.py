@@ -9,8 +9,6 @@ def get_validation_rules():
     - Monthly Expenditure must be < Monthly Income
     - Current Savings must be >= 0
     - Investment Duration must be between 1 and 40 years
-    - Investment Objective must be one of: ["Wealth Creation", "Retirement Planning", 
-      "Children's Education", "Emergency Fund", "Tax Saving", "Regular Income"]
     """
 
 def get_portfolio_guidelines():
