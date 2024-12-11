@@ -128,7 +128,7 @@ The following is an overview of the project's folder structure:
 
 5. **Run the Jupyter notebook**:
    ```bash
-   jupyter notebook Financial_Analysis_&_Automation.ipynb
+   jupyter notebook financial_analysis_automation.ipynb
    ```
    This notebook contains code for setting up the vector database in Pinecone for stock recommendations using SEC data.
 
