@@ -17,7 +17,6 @@ from openai import OpenAI
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 import utils.utils as ut
-from langchain_pinecone import PineconeVectorStore
 from openai import OpenAI
 import json
 import concurrent.futures
