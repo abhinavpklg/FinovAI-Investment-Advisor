@@ -81,8 +81,12 @@ The following is an overview of the project's folder structure:
 ├── README.md                               # Project documentation
 ├── app.py                                  # Streamlit application script
 ├── company_tickers.json                    # JSON file with company tickers
-├── data
-│   └── Finance_data.csv                    # CSV containing investment strategy data
+├── data                                    # Fine Tuning Dataset
+│   ├── Finance_data.csv
+|   ├── training_data1.csv
+|   ├── training_data2.csv
+|   └── training_data3.csv
+|   
 ├── requirements.txt                        # List of project dependencies
 ├── setup.py                                # Script for initializing Pinecone vector database
 ├── successful_tickers.txt                  # File with successfully processed tickers
