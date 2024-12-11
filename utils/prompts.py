@@ -1,5 +1,6 @@
 from langchain.prompts import PromptTemplate
 
+
 def get_validation_rules():
     return """
     # Input Validation Checks
@@ -10,6 +11,7 @@ def get_validation_rules():
     - Current Savings must be >= 0
     - Investment Duration must be between 1 and 40 years
     """
+
 
 def get_portfolio_guidelines():
     return """
@@ -36,6 +38,7 @@ def get_portfolio_guidelines():
        - No tax advice unless explicitly qualified
     """
 
+
 def get_restrictions():
     return """
     # Response Restrictions
@@ -50,6 +53,7 @@ def get_restrictions():
       * Complex derivatives
     """
 
+
 def get_formatting_requirements():
     return """
     # Response Format Requirements
@@ -57,6 +61,7 @@ def get_formatting_requirements():
     - All advice must be based on generally accepted investment principles
     - Include standard disclaimer about investment risks
     """
+
 
 financial_advisor_prompt = PromptTemplate(
     template=f"""You are a financial advisor with expertise in wealth management. 
@@ -79,6 +84,14 @@ financial_advisor_prompt = PromptTemplate(
     {get_restrictions()}
     {get_formatting_requirements()}
     """,
-    input_variables=["gender", "age", "income", "expenditure", "savings", 
-                    "objective", "duration", "user_question"]
+    input_variables=[
+        "gender",
+        "age",
+        "income",
+        "expenditure",
+        "savings",
+        "objective",
+        "duration",
+        "user_question",
+    ],
 )

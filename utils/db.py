@@ -2,20 +2,18 @@ from pinecone import Pinecone
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 
+
 def initialize_pinecone(api_key, environment, index_name):
     pc = Pinecone(api_key=api_key)
     if index_name in pc.list_indexes().names():
         return pc.Index(index_name)
     else:
-        pc.create_index(
-            name=index_name,
-            dimension=1024,
-            metric='cosine'
-        )
+        pc.create_index(name=index_name, dimension=1024, metric="cosine")
         return pc.Index(index_name)
 
+
 def load_dataset_to_pinecone(index, dataset_path, model_name="BAAI/bge-large-en-v1.5"):
-    model = SentenceTransformer(model_name) 
+    model = SentenceTransformer(model_name)
     data = pd.read_csv(dataset_path)
     for idx, row in data.iterrows():
         text = f"""
@@ -35,8 +33,8 @@ def load_dataset_to_pinecone(index, dataset_path, model_name="BAAI/bge-large-en-
         Source: {row['Source']}
         """
         embedding = model.encode(text).tolist()
-        
+
         # Convert all values to strings to ensure compatibility
         metadata = {k: str(v) for k, v in row.to_dict().items()}
-        
+
         index.upsert([(str(idx), embedding, metadata)])

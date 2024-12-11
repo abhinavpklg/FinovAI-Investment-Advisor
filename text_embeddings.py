@@ -13,8 +13,8 @@ if index_name not in pinecone.list_indexes():
 index = pinecone.Index(index_name)
 
 # Load and preprocess the dataset
-data = pd.read_csv('Finance_data.csv')  
-model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+data = pd.read_csv("Finance_data.csv")
+model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 # Convert dataset to embeddings and store in Pinecone
 for idx, row in data.iterrows():
