@@ -373,7 +373,7 @@ def main():
 
     with main_col:
         tab1, tab2, tab3 = st.tabs(
-            ["📊 Ticker Information", "💬 Chat with FinovAI", "📉 AI Stock Analysis"]
+            ["📊 Ticker Information", "💬 AI Investment Advisor", "📉 AI Stock Analysis"]
         )
 
         with tab1:
@@ -505,7 +505,7 @@ def main():
                         st.error(f"An error occurred: {str(e)}")
 
         with tab2:
-            st.title("Chat with FinovAI")
+            st.title("AI Investment Advisor")
             st.subheader("Provide Your Details")
             col1, col2 = st.columns(2)
             with col1:
@@ -554,7 +554,7 @@ def main():
                     except Exception as e:
                         st.error(f"An error occurred: {str(e)}")
 
-            if st.button("Reset Chat"):
+            if st.button("Reset Input"):
                 st.session_state["history"] = []
 
         with tab3:
