@@ -189,7 +189,7 @@ The system utilizes data from the following sources:
   - Company metadata
 - **Purpose**: Stock analysis and company information retrieval
 
-Both datasets are processed and vectorized for use in our RAG system, enabling accurate and context-aware investment recommendations.
+ Both datasets are processed and vectorized for use in our RAG system, enabling accurate and context-aware investment recommendations.
 ---
 
 ## 📂 RAG Knowledge Base
