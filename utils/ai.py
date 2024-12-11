@@ -8,45 +8,76 @@ import torch
 from huggingface_hub import login
 import streamlit as st
 from langchain_community.llms import HuggingFacePipeline
+from openai import OpenAI
+from sentence_transformers import SentenceTransformer
+from utils.prompts import financial_advisor_prompt
 
 # Load environment variables
 load_dotenv()
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 
-# Modify the device selection to be more robust
-device = "cpu"  # Default to CPU
-if torch.backends.mps.is_available():
-    try:
-        device = "mps"
-    except:
-        print(
-            "MPS (Metal Performance Shaders) available but encountered an error. Falling back to CPU."
-        )
+client = OpenAI(
+    base_url="https://api.groq.com/openai/v1",
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
+def setup_chat_model(client, system_prompt):
+    def generate_chat_response(query):
+        try:
+            response = client.chat.completions.create(
+                model='llama-3.1-70b-versatile',
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": query}
+                ]
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"Error generating chat response: {str(e)}")
+            return f"An error occurred: {str(e)}"
+    
+    return generate_chat_response
+
+def setup_retrieval_chain(client, pinecone_index, embedding_model, system_prompt):
+    chat_model = setup_chat_model(client, system_prompt)
+    
+    embedding_function = lambda text: embedding_model.encode(text).tolist()
+    vectorstore = Pinecone(pinecone_index, embedding_function, "text")
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    
+    return chat_model, retriever
+
+# Modify the device selection to be more robust
+# device = "cpu"  # Default to CPU
+# if torch.backends.mps.is_available():
+#     try:
+#         device = "mps"
+#     except:
+#         print("MPS (Metal Performance Shaders) available but encountered an error. Falling back to CPU.")
 
 # Use a pipeline as a high-level helper
-@st.cache_resource
-def initialize_huggingface_model():
-    try:
-        print("Initializing HuggingFace model...")
+# @st.cache_resource
+# def initialize_huggingface_model():
+#     try:
+#         print("Initializing HuggingFace model...")
 
-        model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-
-        login(token=HUGGINGFACE_API_KEY)
-
-        pipe = pipeline(
-            "text-generation",
-            model=model_name,
-            torch_dtype=torch.float16,
-            device_map="auto",
-            model_kwargs={"low_cpu_mem_usage": True},
-        )
-        print("Model initialized successfully")
-        return pipe
-
-    except Exception as e:
-        print(f"Error initializing model: {str(e)}")
-        raise
+#         model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"  
+        
+#         login(token=HUGGINGFACE_API_KEY)
+        
+#         pipe = pipeline(
+#             "text-generation",
+#             model=model_name,
+#             torch_dtype=torch.float16,
+#             device_map="auto",
+#             model_kwargs={"low_cpu_mem_usage": True}
+#         )  
+#         print("Model initialized successfully")
+#         return pipe
+        
+#     except Exception as e:
+#         print(f"Error initializing model: {str(e)}")
+#         raise
 
 
 def generate_response(pipe, messages):
@@ -73,20 +104,73 @@ def generate_response(pipe, messages):
         print(f"Error generating response: {str(e)}")
         return f"An error occurred: {str(e)}"
 
+# def setup_retrieval_chain(pipe, pinecone_index, embedding_model):
+#     # Convert the pipeline to a LangChain LLM
+#     llm = HuggingFacePipeline(pipeline=pipe)
+    
+#     embedding_function = lambda text: embedding_model.encode(text).tolist()
+    
+#     vectorstore = Pinecone(pinecone_index, embedding_function, "text")
+#     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    
+#     print("Retrieved documents:", retriever.get_relevant_documents("test query"))
+    
+#     qa_chain = RetrievalQA.from_chain_type(
+#         llm=llm,
+#         chain_type="stuff",
+#         retriever=retriever,
+#         return_source_documents=False
+#     )
+    
+#     return qa_chain
+def get_huggingface_embeddings(text, model_name="sentence-transformers/all-mpnet-base-v2"):
+    model = SentenceTransformer(model_name)
+    return model.encode(text)
 
-def setup_retrieval_chain(pipe, pinecone_index, embedding_model):
-    # Convert the pipeline to a LangChain LLM
-    llm = HuggingFacePipeline(pipeline=pipe)
-
-    embedding_function = lambda text: embedding_model.encode(text).tolist()
-
-    vectorstore = Pinecone(pinecone_index, embedding_function, "text")
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-
-    print("Retrieved documents:", retriever.get_relevant_documents("test query"))
-
-    qa_chain = RetrievalQA.from_chain_type(
-        llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=False
+def perform_chat_rag(query, user_profile, pinecone_index):
+    # embed the query
+    raw_query_embedding = get_huggingface_embeddings(query)
+    
+    # find the top matches from finov1 index
+    top_matches = pinecone_index.query(
+        vector=raw_query_embedding.tolist(),
+        top_k=5,
+        include_metadata=True
     )
 
-    return qa_chain
+    # Create context from matches
+    context = "Based on our financial database:\n"
+    for match in top_matches['matches']:
+        if 'text' in match['metadata']:
+            context += f"\n- {match['metadata']['text']}"
+
+    # Format the prompt using the template
+    formatted_prompt = financial_advisor_prompt.format(
+        gender=user_profile['gender'],
+        age=user_profile['age'],
+        income=user_profile['income'],
+        expenditure=user_profile['expenditure'],
+        savings=user_profile['savings'],
+        objective=user_profile['objective'],
+        duration=user_profile['duration'],
+        user_question=f"{query}\n\nAdditional Context:\n{context}"
+    )
+
+    try:
+        llm_response = client.chat.completions.create(
+            model='llama-3.1-70b-versatile',
+            messages=[
+                {"role": "system", "content": formatted_prompt}
+            ]
+        )
+        return llm_response.choices[0].message.content
+    except Exception as e:
+        print(f"Error in chat completion: {str(e)}")
+        # Fallback to smaller model
+        llm_response = client.chat.completions.create(
+            model='llama-3.1-8b-instant',
+            messages=[
+                {"role": "system", "content": formatted_prompt}
+            ]
+        )
+        return llm_response.choices[0].message.content

@@ -4,11 +4,7 @@ import os
 import yfinance as yf
 from utils.db import initialize_pinecone, load_dataset_to_pinecone
 from utils.prompts import financial_advisor_prompt
-from utils.ai import (
-    initialize_huggingface_model,
-    setup_retrieval_chain,
-    generate_response,
-)
+from utils.ai import perform_chat_rag
 from multiprocessing import freeze_support
 from sentence_transformers import SentenceTransformer
 import streamlit.components.v1 as components
@@ -17,7 +13,6 @@ import requests
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
-from openai import OpenAI
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 import utils.utils as ut
@@ -28,6 +23,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.schema import Document
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+
+
 
 # Load environment variables
 load_dotenv()
@@ -49,13 +46,6 @@ pinecone_index = pc.Index(index_name)
 client = OpenAI(
     base_url="https://api.groq.com/openai/v1", api_key=os.getenv("GROQ_API_KEY")
 )
-
-
-# Initialize AI model globally
-@st.cache_resource
-def get_model():
-    return initialize_huggingface_model()
-
 
 @st.cache_data
 def fetch_stock_data(ticker):
@@ -531,25 +521,28 @@ def main():
                 savings = st.number_input("Current Savings", min_value=0)
                 objective = st.text_input("Investment Objective")
 
+            user_profile = {
+                "gender": gender,
+                "age": age,
+                "income": income,
+                "expenditure": expenditure,
+                "savings": savings,
+                "objective": objective,
+                "duration": duration
+            }
+
             if "history" not in st.session_state:
                 st.session_state["history"] = []
 
             st.subheader("Ask Your Financial Question")
             user_input = st.text_input("Type your question:")
+            
             if user_input:
                 with st.spinner("Generating response..."):
                     try:
-                        context_message = financial_advisor_prompt.format(
-                            gender=gender,
-                            age=age,
-                            income=income,
-                            expenditure=expenditure,
-                            savings=savings,
-                            objective=objective,
-                            duration=duration,
-                            user_question=user_input,
-                        )
-                        response = generate_response(get_model(), context_message)
+                        # Use RAG-enhanced chat completion
+                        response = perform_chat_rag(user_input, user_profile, pinecone_index)
+                        
                         if response:
                             st.session_state["history"].append((user_input, response))
                             st.write(f"**You:** {user_input}")
@@ -644,5 +637,5 @@ def main():
 
 
 if __name__ == "__main__":
-    freeze_support()
+    #freeze_support()
     main()
