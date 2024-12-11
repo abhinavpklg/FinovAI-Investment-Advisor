@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# FinovAI-Investment-Advisor
-FinovAI : AI-Powered Investment Advisor
-=======
 # FinovAI : AI-Powered Investment Advisor
 
 FinovAI is an intelligent investment advisory system that leverages artificial intelligence to provide personalized investment strategies and stock recommendations. The system uses Retrieval Augmented Generation (RAG) with vector databases to analyze market data and provide informed investment advice.
@@ -256,5 +252,3 @@ This structured prompt engineering ensures consistent, responsible, and personal
 ## Disclaimer
 
 This is an AI-powered advisory tool and should not be considered as financial advice. Always consult with a qualified financial advisor before making investment decisions.
-```
->>>>>>> 5eec6fd (updated comprehensive README.md)
