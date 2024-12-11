@@ -29,14 +29,13 @@ The application features a modern, user-friendly interface built using Streamlit
 
 ## 🛠️ Technology Stack
 
-| **Technology**          | **Description**                       | **Icon** |
-|--------------------------|---------------------------------------|----------|
-| **Python**              | Core programming language             | 🐍       |
-| **Streamlit**           | Interactive web interface framework   | 🌐       |
-| **Pinecone**            | Vector database for RAG               | 📦       |
-| **Yahoo Finance API**   | Real-time market data retrieval       | 💹       |
-| **Jupyter Notebook**    | Data analysis and workflow setup      | 📒       |
-| **Groq API**            | High-performance AI inference         | 🚀       |
+- **🐍 Python**: Core programming language for building the application.
+- **🌐 Streamlit**: Framework for creating an interactive and user-friendly web interface.
+- **📦 Pinecone**: Vector database used for Retrieval Augmented Generation (RAG) capabilities.
+- **💹 Yahoo Finance API**: Provides real-time market data for stock analysis.
+- **📒 Jupyter Notebook**: Used for data analysis, processing, and workflow setup.
+- **🚀 Groq API**: Enables high-performance AI inference for fast and accurate predictions.
+
 
 ---
 
