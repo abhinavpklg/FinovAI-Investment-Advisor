@@ -534,9 +534,14 @@ def main():
             if "history" not in st.session_state:
                 st.session_state["history"] = []
 
-            st.subheader("Ask Your Financial Question")
-            user_input = st.text_input("Type your question:")
-            
+            st.write("---")
+            for i in range(len(st.session_state["history"]) - 1, -1, -1):
+                user_msg, ai_response = st.session_state["history"][i]
+                st.write(f"**Question:** {user_msg}")
+                st.write(f"**Response:** {ai_response}")
+
+            user_input = st.text_input("Type your question here:", key="user_input")
+
             if user_input:
                 with st.spinner("Generating response..."):
                     try:
@@ -551,13 +556,6 @@ def main():
                             st.error("Failed to get response from the model")
                     except Exception as e:
                         st.error(f"An error occurred: {str(e)}")
-
-            st.write("---")
-            st.write("**Chat History:**")
-            for i in range(len(st.session_state["history"]) - 1, -1, -1):
-                user_msg, ai_response = st.session_state["history"][i]
-                st.write(f"**You:** {user_msg}")
-                st.write(f"**Advisor:** {ai_response}")
 
             if st.button("Reset Chat"):
                 st.session_state["history"] = []
