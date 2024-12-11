@@ -2,10 +2,8 @@ import streamlit as st
 from dotenv import load_dotenv
 import os
 import yfinance as yf
-from utils.db import initialize_pinecone, load_dataset_to_pinecone
-from utils.prompts import financial_advisor_prompt
+from utils.db import initialize_pinecone
 from utils.ai import perform_chat_rag
-from multiprocessing import freeze_support
 from sentence_transformers import SentenceTransformer
 import streamlit.components.v1 as components
 from transformers import pipeline
@@ -13,17 +11,9 @@ import requests
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
-from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 import utils.utils as ut
 from openai import OpenAI
-import json
-import concurrent.futures
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.schema import Document
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-
 
 
 # Load environment variables
@@ -31,11 +21,11 @@ load_dotenv()
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
-# Initialize Pinecone
+# Initialize Pinecone for CHAT
 index_name = "finov1"
 pinecone_index = initialize_pinecone(PINECONE_API_KEY, "us-east-1", index_name)
 
-# initialize Pinecone
+# initialize Pinecone for Stock Analysis
 pc = Pinecone(PINECONE_API_KEY)
 index_name = "stocks"
 namespace = "stock-description_detailed"
@@ -64,7 +54,7 @@ def get_ticker_from_company_name(company_name):
 def calculate_kpis(data, stock_info):
     if not data.empty:
         latest_price = data["Close"][-1]
-        monthly_avg = data["Close"].resample("M").mean().iloc[-1]
+        monthly_avg = data["Close"].resample("ME").mean().iloc[-1]
         yearly_high = data["High"].max()
         yearly_low = data["Low"].min()
 
@@ -163,15 +153,22 @@ def create_footer():
     st.markdown(footer_html, unsafe_allow_html=True)
 
 
-summarizer = pipeline("summarization")
-
-
-def summarize_text(text, max_length=130, min_length=30):
+def summarize_text(text, max_length=130):
     try:
-        summary = summarizer(
-            text, max_length=max_length, min_length=min_length, do_sample=False
+        prompt = f"""Please summarize the following text in a concise way (around {max_length} characters):
+
+Text: {text}
+
+Summary:"""
+        
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",  # or "llama-3.1-70b-versatile"
+            messages=[
+                {"role": "system", "content": "You are a text summarization expert. Provide clear, concise summaries while maintaining key information."},
+                {"role": "user", "content": prompt}
+            ]
         )
-        return summary[0]["summary_text"]
+        return response.choices[0].message.content
     except Exception as e:
         print(f"Error summarizing text: {str(e)}")
         return "Summary not available."
@@ -459,7 +456,7 @@ def main():
                             st.subheader("📊 Additional Insights:")
 
                             st.write("### Volume Distribution")
-                            volume_data = data["Volume"].resample("M").sum()
+                            volume_data = data["Volume"].resample("ME").sum()
                             fig1 = px.pie(
                                 values=volume_data.values,
                                 names=volume_data.index.strftime("%b"),
