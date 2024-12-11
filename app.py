@@ -373,7 +373,7 @@ def main():
 
     with main_col:
         tab1, tab2, tab3 = st.tabs(
-            ["📊 Ticker Information", "💬 AI Investment Advisor", "📉 AI Stock Analysis"]
+            ["📊 Company Research", "💬 AI Investment Advisor", "📉 AI Stock Analysis"]
         )
 
         with tab1:
