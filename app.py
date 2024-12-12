@@ -14,6 +14,8 @@ import plotly.graph_objects as go
 from pinecone import Pinecone
 import utils.utils as ut
 from openai import OpenAI
+from fpdf import FPDF
+import base64
 
 
 # Load environment variables
@@ -365,6 +367,54 @@ def render_stock_block(stock):
         st.markdown(metrics_html, unsafe_allow_html=True)
 
 
+def create_download_link(val, filename):
+    b64 = base64.b64encode(val)  # val looks like b'...'
+    return f'''
+    <a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}">
+        <button style="
+            background-color: #00FF9D;
+            color: #0F1116;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;">
+            Download Investment Report
+        </button>
+    </a>
+    '''
+
+
+def export_to_pdf(user_profile, chat_history):
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Add title
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(0, 10, 'FinovAI Investment Advisory Report', ln=True, align='C')
+    pdf.ln(10)
+    
+    # Add user profile
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'User Profile', ln=True)
+    pdf.set_font('Arial', '', 12)
+    for key, value in user_profile.items():
+        pdf.cell(0, 10, f'{key.capitalize()}: {value}', ln=True)
+    pdf.ln(10)
+    
+    # Add chat history
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(0, 10, 'Investment Advice History', ln=True)
+    pdf.set_font('Arial', '', 12)
+    for q, a in chat_history:
+        pdf.multi_cell(0, 10, f'Question: {q}')
+        pdf.multi_cell(0, 10, f'Answer: {a}')
+        pdf.ln(5)
+    
+    return pdf.output(dest='S').encode('latin-1')
+
+
 def main():
     st.set_page_config(layout="wide")
     create_header()
@@ -556,6 +606,10 @@ def main():
 
             if st.button("Reset Input"):
                 st.session_state["history"] = []
+
+            if st.session_state["history"]:
+                pdf = export_to_pdf(user_profile, st.session_state["history"])
+                st.markdown(create_download_link(pdf, "investment_advice.pdf"), unsafe_allow_html=True)
 
         with tab3:
             st.title("📉 AI Stock Analysis")
