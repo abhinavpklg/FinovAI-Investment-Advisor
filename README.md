@@ -3,7 +3,14 @@
 FinovAI is an intelligent investment advisory system that leverages artificial intelligence to provide personalized investment strategies and stock recommendations. The system uses **Retrieval Augmented Generation (RAG)** with vector databases to analyze market data and provide informed investment advice.
 
 ---
-## Live: https://finovai.streamlit.app/
+## 🚀 Live: https://finovai.streamlit.app/
+---
+
+## 🖥️ System Architecture
+
+![Screenshot 2024-12-11 185208](https://github.com/user-attachments/assets/af4a891d-0471-4150-97e8-c8cc822d9957)
+
+
 ---
 
 ## ✨ Features
