@@ -200,26 +200,75 @@ This command:
 
 ### ✅ Investment Strategy Generation:
 ```
-User: I'm 30 years old with a monthly income of $8000, monthly expenditure of $5000, 
-      and current savings of $50000. What investment strategy do you recommend?
+Question: Generate a financial strategy
 
-FinovAI: Based on your age and financial profile, here's a recommended portfolio allocation:
-- Equity/Stocks: 70%
-- Mutual Funds: 15%
-- Government Bonds: 10%
-- Fixed Deposits: 5%
+Response: Financial Investment Strategy for Wealth Creation
 
-This aggressive allocation leverages your long investment horizon and risk capacity.
+Disclaimer: Investments carry risks, and past performance is not a guarantee of future results. It is essential to diversify your portfolio and consult a financial advisor before making any investment decisions.
+
+Client Profile:
+
+Age: 28
+Monthly Income: $7,000
+Monthly Expenditure: $3,000
+Current Savings: $300,000
+Investment Objective: Wealth creation
+Investment Duration: 7 years
+Initial Assessment: Based on the provided data, the client has a substantial monthly surplus (4,000) and a sizeable savings amount (4,000)and a sizeable savings amount(300,000), which can be leveraged to create wealth through investments.
+
+Investment Allocation: The recommended portfolio allocation is:
+
+Equity/Stocks: 40% (Risk Profile: Age-based risk capacity allows for 72% equity exposure; we are taking 40% to balance risk and reward)
+Mutual Funds: 25% (balancing risk and providing liquidity)
+Government Bonds: 20% (mitigating interest rate risk and providing a stable return component)
+Fixed Deposits: 10% (providing liquidity and return with minimal risk)
+Gold: 5% (hedging against inflation and uncertainty)
+Justification:
+
+Age: The client is 28, with a medium to high-risk profile. This allows for a balanced allocation between equities, mutual funds, and bonds.
+Time Horizon: With a 7-year investment duration, we have a medium-term time horizon, which can help to mitigate potential market fluctuations.
+Monthly Surplus: The client has a substantial surplus, which can be used to invest and grow wealth.
+Recommendations:
+
+Minimum Investment Horizon: A minimum investment horizon of 5 years is recommended to help smooth out potential market fluctuations.
+Diversification: A diversified portfolio will help to minimize risk and maximize potential returns.
+Cautionary Advice: Markets can be volatile; we strongly advise against making emotional decisions during market downturns. Sticking to a well-thought-out investment plan is crucial for long-term success.
+Investment Principles:
+
+Dollar-Cost Averaging: Invest a fixed amount of money at regular intervals, regardless of market conditions, to smooth out market volatility.
+Regular Portfolio Rebalancing: Periodically review and rebalance your portfolio to maintain the target allocation and minimize risk.
+Standard Disclaimer: This investment strategy is based on generally accepted investment principles and may not be suitable for every investor. Past performance is not a guarantee of future results, and investments carry inherent risks.
 ```
 
 ### 📊 Stock Analysis:
 ```
-User: Which companies are making electric cars?
+User: I want to invest in Battery technologies?
 
-FinovAI: Based on market analysis, here are some key players:
-- Tesla (TSLA): Leading EV manufacturer with global presence
-- EVgo (EVGO): Focuses on EV charging infrastructure
-- Other automotive companies with significant EV initiatives
+Response:
+
+Based on the provided information, I will analyze the stocks in detail, identify notable connections, and provide concise, actionable insights to guide investment decisions related to battery technologies.
+
+Stock Analysis:
+
+Generac Holdings Inc.: As a leading manufacturer of energy technology products and solutions, Generac is a significant player in the battery technology space. Their residential storage solution, which consists of a system of batteries, an inverter, photovoltaic optimizers, power electronic controls, and other components, positions them well for growth in the energy storage market. With a strong product lineup and proven expertise in the energy technology sector, Generac is an attractive investment opportunity for those looking to capitalize on the growing demand for battery technologies.
+AMETEK, Inc.: Although AMETEK is a diversified company with a wide range of products and services, their offerings in the energy storage space are relatively limited compared to Generac. However, their EIG segment's focus on power quality monitoring devices, uninterruptible power supplies, and sensors for gas turbines could potentially benefit from advancements in battery technologies.
+Albemarle Corporation: As a leading supplier of lithium, a critical component in battery technologies, Albemarle is well-positioned to capitalize on the growing demand for energy storage solutions. Their Energy Storage segment offers lithium compounds, which are used in a variety of battery applications, including electric vehicles and renewable energy systems.
+GE Vernova Inc.: GE Vernova's Electrification segment offers grid solutions, power conversion, solar, and storage solutions, including electrification software. While they may not be a direct player in battery technologies, their involvement in the energy storage space and focus on grid modernization could benefit from advancements in battery technologies.
+Notable Connections:
+
+Lithium supply chain: Albemarle Corporation's dominance in the lithium market provides a critical component for battery technologies. As demand for lithium-ion batteries increases, Albemarle is well-positioned to benefit from the growth.
+Industry partnerships: Generac Holdings Inc. and GE Vernova Inc. may benefit from partnerships in the energy storage space, potentially leveraging each other's expertise to drive innovation and growth.
+Grid modernization: GE Vernova's focus on grid modernization and electrification could lead to increased demand for energy storage solutions, benefiting companies like Generac Holdings Inc. and Albemarle Corporation.
+Actionable Insights:
+
+Invest in Generac Holdings Inc.: With a strong product lineup and proven expertise in the energy technology sector, Generac is well-positioned to capitalize on the growing demand for battery technologies.
+Monitor Albemarle Corporation: As a leading supplier of lithium, Albemarle is poised to benefit from the growing demand for energy storage solutions. Their stock price may fluctuate based on lithium demand and supply dynamics.
+Watch for partnerships and innovations: Keep an eye on potential partnerships between Generac Holdings Inc., GE Vernova Inc., and other industry players, as well as innovations in battery technologies that could drive growth and adoption.
+Investment Strategy:
+
+Long-term growth: Invest in Generac Holdings Inc. and Albemarle Corporation for long-term growth potential in the battery technology space.
+Diversification: Consider adding GE Vernova Inc. to a diversified portfolio to capture growth opportunities in the energy storage and grid modernization space.
+Monitor and adapt: Continuously monitor industry developments, partnerships, and innovations to adjust investment strategies accordingly.
 ```
 
 ---
