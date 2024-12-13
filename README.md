@@ -4,6 +4,8 @@ FinovAI is an intelligent investment advisory system that leverages artificial i
 
 ---
 ## 🚀 Live: https://finovai.streamlit.app/
+
+## 🖥️ Project Video: https://youtu.be/8pU2RFu9_eY
 ---
 
 ## 🖥️ System Architecture
