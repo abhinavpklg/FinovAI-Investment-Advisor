@@ -340,7 +340,7 @@ The system follows these key principles:
 The system's AI models are fine-tuned on specialized financial datasets to enhance performance:
 
 ### 1. Investment Survey Dataset:
-- **Size**: 10,000+ records of investment decisions and outcomes.
+- **Size**: Survey records of investment decisions and among various age groups.
 - **Source**: `Finance_data.csv`
 - **Features**:
   - Demographics (age, gender, income).
